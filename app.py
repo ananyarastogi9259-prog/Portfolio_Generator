@@ -814,6 +814,12 @@ def main():
         st.write("")
         
         with st.container(border=True):
+            user_api_key = st.text_input("🔑 Google Gemini API Key (Optional)", value="", type="password", help="Leave blank to use the free public server key. Enter your own key if you want to use your personal quota.")
+            st.markdown("<div style='text-align: right; font-size: 0.8rem;'><a href='https://aistudio.google.com/app/apikey' target='_blank' style='color: #00d2ff; text-decoration: none;'>Get API key →</a></div>", unsafe_allow_html=True)
+            
+        st.write("")
+        
+        with st.container(border=True):
             st.markdown("<h4 style='color: #a0aec0; margin-bottom: 10px;'>💡 Pro Tip</h4>", unsafe_allow_html=True)
             st.markdown("This app uses a premium AI backend to structure and write your portfolio sections flawlessly. Just paste your raw text and let the AI do the heavy lifting!")
             
@@ -847,9 +853,9 @@ def main():
     submit_btn = st.button("🚀 Generate Portfolio", type="primary")
         
     if submit_btn:
-        api_key = os.getenv("GEMINI_API_KEY", "")
+        api_key = user_api_key if user_api_key.strip() else os.getenv("GEMINI_API_KEY", "")
         if not api_key:
-            st.error("Server Configuration Error: The API Key is not set on the server backend. Please try again later.")
+            st.error("Configuration Error: No API Key available. Please enter your API Key in the sidebar.")
             st.stop()
             
         if input_method == "Paste Text":
